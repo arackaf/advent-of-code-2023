@@ -52,10 +52,6 @@ function gameRoundPossible(round: GameRound): boolean {
   );
 }
 
-function gamePossible(g: Game): boolean {
-  return g.rounds.every(gameRoundPossible);
-}
-
 function power(g: Game): number {
   const blues: number[] = [];
   const greens: number[] = [];
