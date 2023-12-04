@@ -21,13 +21,6 @@ type NumberValue = {
 
 const isDigit = (char: string) => /[0-9]/.test(char);
 
-function anyCoordinateASymbol(matrix: Matrix, coordinates: Coordinate[]): boolean {
-  return coordinates.some((c) => {
-    const char = matrix[c.row][c.col];
-    return char !== "." && !isDigit(char);
-  });
-}
-
 function getNumbers(lineNum: number, matrix: string[][]): NumberValue[] {
   const result: NumberValue[] = [];
 
@@ -106,12 +99,23 @@ function getAllAdjacentCoordinates(matrix: string[][], coordinates: Coordinate[]
   });
 }
 
+function anyCoordinateASymbol(matrix: Matrix, coordinates: Coordinate[]): boolean {
+  return coordinates.some((c) => {
+    const char = matrix[c.row][c.col];
+    return char !== "." && !isDigit(char);
+  });
+}
+
+function validNumber(matrix: Matrix, num: NumberValue): boolean {
+  const adjCoordinates = getAllAdjacentCoordinates(matrix, num.indexes);
+  return anyCoordinateASymbol(matrix, adjCoordinates);
+}
+
 const data = readInput();
 
-const validNumbers = data
+const sum = data
   .flatMap((_, idx, matrix) => getNumbers(idx, matrix))
-  .filter((num) => anyCoordinateASymbol(data, getAllAdjacentCoordinates(data, num.indexes)));
-
-const sum = validNumbers.reduce((sum, num) => sum + num.val, 0);
+  .filter((num) => validNumber(data, num))
+  .reduce((sum, num) => sum + num.val, 0);
 
 console.log({ sum });
