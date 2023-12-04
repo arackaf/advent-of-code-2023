@@ -2,6 +2,8 @@ import fs from "fs";
 
 type Matrix = string[][];
 
+const matrix = readInput();
+
 function readInput(): Matrix {
   const fileContents = fs.readFileSync("../input.txt", { encoding: "utf8" });
 
@@ -21,7 +23,7 @@ type NumberValue = {
 
 const isDigit = (char: string) => /[0-9]/.test(char);
 
-function getNumbers(lineNum: number, matrix: string[][]): NumberValue[] {
+function getNumbers(lineNum: number): NumberValue[] {
   const result: NumberValue[] = [];
 
   let parsingNumber = false;
@@ -106,16 +108,14 @@ function anyCoordinateASymbol(matrix: Matrix, coordinates: Coordinate[]): boolea
   });
 }
 
-function validNumber(matrix: Matrix, num: NumberValue): boolean {
+function validNumber(num: NumberValue): boolean {
   const adjCoordinates = getAllAdjacentCoordinates(matrix, num.indexes);
   return anyCoordinateASymbol(matrix, adjCoordinates);
 }
 
-const data = readInput();
-
-const sum = data
-  .flatMap((_, idx, matrix) => getNumbers(idx, matrix))
-  .filter((num) => validNumber(data, num))
+const sum = matrix
+  .flatMap((_, idx) => getNumbers(idx))
+  .filter(validNumber)
   .reduce((sum, num) => sum + num.val, 0);
 
 console.log({ sum });
