@@ -11,7 +11,7 @@ type NumberPosition = {
 };
 
 const validNumberStrings = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
-const shortestWordLength = Math.min(...validNumberStrings.map((word) => word.length));
+const shortestWordLength = Math.min(...validNumberStrings.map(word => word.length));
 
 function numberWordToValue(str: string): number {
   return validNumberStrings.indexOf(str) + 1;

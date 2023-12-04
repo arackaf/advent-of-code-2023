@@ -19,9 +19,9 @@ function parseGame(input: string): Game {
 
   const rounds = roundsString.split(";");
 
-  const roundsObjects = rounds.map((round) => {
+  const roundsObjects = rounds.map(round => {
     const entries = round.match(/\d+ (red|green|blue)/g);
-    const values = entries.map((entry) => {
+    const values = entries.map(entry => {
       const [, val, color] = entry.match(/(\d+) (red|blue|green)/);
       return `"${color}": ${val}`;
     });
@@ -31,7 +31,7 @@ function parseGame(input: string): Game {
 
   return {
     id: gameId,
-    rounds: roundsObjects.map((str) => JSON.parse(str)),
+    rounds: roundsObjects.map(str => JSON.parse(str)),
   };
 }
 
