@@ -6,7 +6,7 @@ function readInput(): Matrix {
   const fileContents = fs.readFileSync("../input.txt", { encoding: "utf8" });
 
   const lines = fileContents.split("\n");
-  return lines.map((str) => [...str]);
+  return lines.map(str => [...str]);
 }
 
 type Coordinate = {
@@ -63,14 +63,14 @@ function getVerticallyAdjacentCoordinates(matrix: string[][], coordinate: Coordi
     { row: coordinate.row + 1, col: coordinate.col - 1 },
     { row: coordinate.row + 1, col: coordinate.col },
     { row: coordinate.row + 1, col: coordinate.col + 1 },
-  ].filter((c) => {
+  ].filter(c => {
     return c.row >= 0 && c.col >= 0 && c.row < matrix.length && c.col < matrix[c.row].length;
   });
 
   return eligible;
 }
 function getAllAdjacentCoordinates(matrix: string[][], coordinates: Coordinate[]): Coordinate[] {
-  const allCoordiates = coordinates.flatMap((c) => getVerticallyAdjacentCoordinates(matrix, c));
+  const allCoordiates = coordinates.flatMap(c => getVerticallyAdjacentCoordinates(matrix, c));
 
   const firstCoordinate = coordinates[0];
   const lastCoordinate = coordinates.at(-1);
@@ -88,9 +88,9 @@ function getAllAdjacentCoordinates(matrix: string[][], coordinates: Coordinate[]
     });
   }
 
-  const unique = new Set(allCoordiates.map((c) => `${c.row}-${c.col}`));
+  const unique = new Set(allCoordiates.map(c => `${c.row}-${c.col}`));
 
-  return [...unique].map((s) => {
+  return [...unique].map(s => {
     const [row, col] = s.split("-");
     return {
       row: +row,
@@ -100,7 +100,7 @@ function getAllAdjacentCoordinates(matrix: string[][], coordinates: Coordinate[]
 }
 
 function anyCoordinateASymbol(matrix: Matrix, coordinates: Coordinate[]): boolean {
-  return coordinates.some((c) => {
+  return coordinates.some(c => {
     const char = matrix[c.row][c.col];
     return char !== "." && !isDigit(char);
   });
