@@ -40,18 +40,6 @@ function readInput(): Game[] {
   return fileContents.split("\n").map(parseGame);
 }
 
-const redConstrint = 12;
-const greenConstrint = 13;
-const blueConstrint = 14;
-
-function gameRoundPossible(round: GameRound): boolean {
-  return (
-    (round.blue == null || round.blue <= blueConstrint) &&
-    (round.green == null || round.green <= greenConstrint) &&
-    (round.red == null || round.red <= redConstrint)
-  );
-}
-
 function power(g: Game): number {
   const blues: number[] = [];
   const greens: number[] = [];
