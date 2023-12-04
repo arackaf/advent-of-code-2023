@@ -2,8 +2,6 @@ import fs from "fs";
 
 type Matrix = string[][];
 
-const matrix = readInput();
-
 function readInput(): Matrix {
   const fileContents = fs.readFileSync("../input.txt", { encoding: "utf8" });
 
@@ -112,6 +110,8 @@ function validNumber(num: NumberValue): boolean {
   const adjCoordinates = getAllAdjacentCoordinates(matrix, num.indexes);
   return anyCoordinateASymbol(matrix, adjCoordinates);
 }
+
+const matrix = readInput();
 
 const sum = matrix
   .flatMap((_, idx) => getNumbers(idx))
