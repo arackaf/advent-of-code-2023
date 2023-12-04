@@ -19,27 +19,43 @@ type NumberValue = {
   indexes: Coordinate[];
 };
 
-const nonSymbols = [".", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+const isDigit = (char: string) => /[0-9]/.test(char);
+
 function anyCoordinateASymbol(matrix: Matrix, coordinates: Coordinate[]): boolean {
   return coordinates.some((c) => {
     const char = matrix[c.row][c.col];
-    return char !== "." && !/[0-9]/.test(char);
+    return char !== "." && !isDigit(char);
   });
 }
 
 function getNumbers(lineNum: number, matrix: string[][]): NumberValue[] {
   const result: NumberValue[] = [];
 
+  let parsingNumber = false;
+  let runningNumber = "";
+  let startindeIndex = 0;
+
   const line = matrix[lineNum].join("");
-  const numbersFound = line.match(/(\d+)/g) ?? [];
 
-  for (const number of numbersFound) {
-    const startingIndex = line.indexOf(number);
-
-    result.push({
-      val: +number,
-      indexes: Array.from({ length: number.length }).map((_, idx) => ({ row: lineNum, col: startingIndex + idx })),
-    });
+  for (let i = 0; i < line.length; i++) {
+    if (isDigit(line[i])) {
+      if (parsingNumber) {
+        runningNumber += line[i];
+      } else {
+        parsingNumber = true;
+        startindeIndex = i;
+        runningNumber = line[i];
+      }
+    }
+    if (!isDigit(line[i]) || i === line.length - 1) {
+      if (parsingNumber) {
+        parsingNumber = false;
+        result.push({
+          val: +runningNumber,
+          indexes: Array.from({ length: runningNumber.length }).map((_, idx) => ({ row: lineNum, col: startindeIndex + idx })),
+        });
+      }
+    }
   }
 
   return result;
@@ -99,14 +115,3 @@ const validNumbers = data
 const sum = validNumbers.reduce((sum, num) => sum + num.val, 0);
 
 console.log({ sum });
-
-// for (let i = 0; i < data.length; i++) {
-//   const xxx = getNumbers(i, data).filter((num) => anyCoordinateASymbol(data, getAllAdjacentCoordinates(data, num.indexes)));
-//   console.log(
-//     i + 1,
-//     xxx.map((x) => x.val)
-//   );
-// }
-//const X = validNumbers.find((x) => x.val === 9)!;
-
-//console.log(X.val);
