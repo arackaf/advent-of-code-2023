@@ -2,7 +2,6 @@ import fs from "fs";
 
 function readInput(): string[] {
   const fileContents = fs.readFileSync("../input.txt", { encoding: "utf8" });
-
   return fileContents.split("\n");
 }
 
